@@ -1,7 +1,8 @@
 import numpy as np
 
-class Preceptron (object):
-    """Preceptron classifier 
+
+class Preceptron(object):
+    """Preceptron classifier
 
     Parameters
     ----------
@@ -9,27 +10,27 @@ class Preceptron (object):
 
     Attributes
     -----------
-    """ 
+    """
 
-    def __init__(self, eta=0.01, n_iter=50, random_state = 1):
+    def __init__(self, eta=0.01, n_iter=50, random_state=1):
         self.eta = eta
         self.n_iter = n_iter
         self.random_state = random_state
 
-    def fir(self, X, y):
+    def fit(self, X, y):
         """Fit training data
 
-           Parameters 
-           ----------
+        Parameters
+        ----------
 
 
-           Returns
-           -------
-           self: object
+        Returns
+        -------
+        self: object
         """
 
         rgen = np.random.RandomState(self.random_state)
-        self.w_ = rgen.normal(loc=0.0, scale=0.01, size = 1 + X.shape[1])
+        self.w_ = rgen.normal(loc=0.0, scale=0.01, size=1 + X.shape[1])
         self.errors_ = []
 
         for _ in range(self.n_iter):
@@ -41,13 +42,11 @@ class Preceptron (object):
                 errors += int(update != 0.0)
             self.errors_.append(errors)
         return self
-    
+
     def net_input(self, X):
         """Calculate net inpute"""
         return np.dot(X, self.w_[1:]) + self.w_[0]
-    
+
     def predict(self, X):
         """Return class label after unit step"""
         return np.where(self.net_input(X) >= 0.0, 1, -1)
-        
-
